@@ -16,7 +16,7 @@ class Predictions extends Component {
 
     return (<StaggeredMotion
       defaultStyles={contents.map( p => ({maxHeight: 0}))}
-      styles={prevInterpolatedStyles => 
+      styles={prevInterpolatedStyles =>
         prevInterpolatedStyles.map((_, i) =>
           i === 0
             ? {maxHeight: spring(100)}
@@ -33,20 +33,44 @@ class Predictions extends Component {
             const probability = prediction.probability;
             const percent = Math.round(probability * 100);
             const labels = prediction.label.split(/,\s*/);
+            var suggestion = "";
+            var displayornone = "none";
+
+            if (labels[0] == "Good") {
+                displayornone = "block";
+                if (probability < 0.41) {
+                    suggestion = "加工速度を10%、アシストガス圧を10%上げてください";
+                } else if (probability > 0.41 && probability < 0.61) {
+                    suggestion = "アシストガス圧を10%上げてください";
+                } else if (probability > 0.6 && probability < 0.81) {
+                    suggestion = "加工速度を10%上げてください";
+                }
+            }
+
             let color = '#fff';
             if (probability < .5) color = '#777';
-            return (<div 
-              className='prediction'
-              key={`prediction-${i}`}
-              style={Object.assign(style, {
-                color: color,
-                backgroundColor: `rgba(0,119,187,${probability})`
-              })}>
-              <h2>{labels[0]} <span className="probability" title="Probability">{percent}%</span></h2>
-              {labels[1] != null
-                ? <p className="alt-labels">{labels.slice(1, labels.length).join(', ')}</p>
-                : null}
-              
+            return (<div
+                  className='prediction'
+                  key={`prediction-${i}`}
+                  style={Object.assign(style, {
+                    color: color,
+                    backgroundColor: `rgba(0,119,187,${probability})`,
+                    display: `${displayornone}`
+                  })}>
+                    {
+                        labels[0] != "NoGood"
+                        ?
+                        <h2>判定結果 <span className="probability" title="Probability">{percent}%</span></h2>
+                        :
+                        null
+                    }
+                    {
+                        suggestion != ""
+                        ?
+                        <p>{suggestion}</p>
+                        :
+                        null
+                    }
             </div>);
           })}
         </div>

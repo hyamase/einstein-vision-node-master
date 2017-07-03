@@ -20,6 +20,7 @@ class UploadTarget extends Component {
       </g>
     </g>
     </svg>
+      <div className="prompt">Drop image here or tap to upload</div>
     </div>);
   }
 
