@@ -28,8 +28,7 @@ class App extends Component {
       <div>
         <div className="title">
           <h1 className="intro">
-             Einstein Vision Demo
-             <div className="detail">of the General Image Classifier</div>
+             Einstein Vision
           </h1>
         </div>
         <div className={classNames(
@@ -49,7 +48,7 @@ class App extends Component {
             <UploadTarget/>
           </Dropzone>}
 
-          
+
           <Dropzone
               accept={'image/png, image/jpeg'}
               multiple={false}
@@ -65,13 +64,13 @@ class App extends Component {
               <div className={classNames(
                 'image-preview',
                 file != null ? 'image-preview-visible' : null)}>
-                
+
                 {isProcessing || response ? <img
                   alt="Upload preview"
                   src={file && file.preview}
                   style={{ display: 'block' }}/> : null}
-                {!response || isProcessing ? null : 
-                  <div className="prompt">Drop or tap to upload another.</div>
+                {!response || isProcessing ? null :
+                  <div className="prompt"></div>
                 }
                 <div className="spinner-wrapper">
                   {isProcessing
@@ -82,15 +81,13 @@ class App extends Component {
                     :null}
                 </div>
               </div>
-            
+
             <Predictions contents={predictions}/>
           </div>
           </Dropzone>
         </div>
 
         <div className="footer">
-          <a href="https://github.com/heroku/einstein-vision-node">GitHub</a>
-          <a href="https://metamind.readme.io/v1/docs">API Docs</a>
         </div>
       </div>
     );
